@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Dropshipping</title>
+    <!-- Incluye Tailwind CSS para los estilos -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Importa la fuente Inter de Google Fonts para una tipografía limpia */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+        /* Definición de la paleta de colores moderna y suave */
+        :root {
+            --color-primary: #5B21B6; /* Morado profundo para acentos */
+            --color-primary-light: #8B5CF6; /* Morado claro para efectos */
+            --color-accent: #10B981; /* Verde esmeralda para ganancias */
+            --color-text: #1F2937; /* Gris oscuro para el texto principal */
+            --color-soft-bg: #F3F4F6; /* Fondo gris claro */
+            --color-card-bg: #ffffff; /* Fondo de la tarjeta blanco */
+            --color-border: #D1D5DB; /* Borde gris suave */
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--color-soft-bg);
+        }
+
+        /* Estilos de la tarjeta principal con un diseño más elevado */
+        .container-card {
+            background-color: var(--color-card-bg);
+            border-radius: 2rem;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25); /* Sombra más pronunciada y suave */
+            padding: 3.5rem;
+            max-width: 5xl;
+            width: 100%;
+        }
+
+        /* Estilos para los títulos y subtítulos */
+        .title {
+            color: var(--color-text);
+        }
+
+        /* Estilos para las etiquetas de los inputs */
+        .input-group label {
+            font-weight: 500;
+            color: var(--color-text);
+        }
+
+        /* Estilos para los campos de entrada de texto con transiciones suaves */
+        .input-group input, .input-group select {
+            border-radius: 0.75rem;
+            border: 2px solid var(--color-border);
+            padding: 0.8rem 1.25rem;
+            width: 100%;
+            margin-top: 0.5rem;
+            background-color: #F9FAFB;
+            transition: all 0.3s ease-in-out;
+            color: var(--color-text);
+        }
+
+        /* Efecto de foco para los inputs y select */
+        .input-group input:focus, .input-group select:focus {
+            outline: none;
+            border-color: var(--color-primary);
+            box-shadow: 0 0 0 4px rgba(91, 33, 182, 0.1);
+        }
+
+        /* Estilos para el botón de cálculo con efecto de clic */
+        .button {
+            background-image: linear-gradient(to right, #4C1D95, #6D28D9);
+            color: var(--color-card-bg);
+            font-weight: 700;
+            padding: 1rem 2rem;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            transition: all 0.2s ease-in-out;
+        }
+
+        .button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+        }
+
+        .button:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Estilos de la sección de resultados con mejor contraste */
+        .results-section {
+            background-color: #E5E7EB;
+            border-radius: 1.5rem;
+            padding: 2.5rem;
+            border: 1px solid #D1D5DB;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .results-section h3 {
+            font-weight: 700;
+            color: var(--color-primary);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .results-section p {
+            font-weight: 500;
+            color: var(--color-text);
+            margin-top: 0.75rem;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .results-section span {
+            font-weight: 800;
+            color: var(--color-text);
+        }
+        
+        .results-section .total-cost,
+        .results-section .profit {
+            font-weight: 900;
+            color: var(--color-primary);
+        }
+
+        .results-section .profit {
+            color: var(--color-accent); /* Verde esmeralda para la ganancia */
+        }
+        
+        .results-section .suggested-price {
+            color: var(--color-primary-light);
+        }
+    </style>
+</head>
+<body class="flex items-center justify-center min-h-screen p-4 md:p-8">
+
+    <div class="container-card w-full">
+        <!-- Título y descripción mejorados -->
+        <div class="text-center mb-12">
+            <h1 class="text-5xl font-extrabold title mb-4">Calculadora de Dropshipping 🚀</h1>
+            <p class="text-gray-500 max-w-xl mx-auto text-lg">
+                Calcula tus costos fijos y variables para determinar la rentabilidad y el precio de venta ideal de tus productos.
+            </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-8">
+            <!-- Sección de Costos Fijos -->
+            <div>
+                <h2 class="text-2xl font-bold title mb-6">1. Costos Fijos Mensuales 💰</h2>
+                <div class="space-y-6">
+                    <div class="input-group">
+                        <label for="platformCost">Costo de Plataforma (Shopify, Tienda Nube)</label>
+                        <input type="number" id="platformCost" placeholder="Ej: 5000" class="w-full">
+                    </div>
+                    <div class="input-group">
+                        <label for="marketing">Marketing y Publicidad</label>
+                        <input type="number" id="marketing" placeholder="Ej: 10000" class="w-full">
+                    </div>
+                    <div class="input-group">
+                        <label for="services">Servicios (Internet, etc.)</label>
+                        <input type="number" id="services" placeholder="Ej: 5000" class="w-full">
+                    </div>
+                    <div class="input-group">
+                        <label for="otherFixed">Otros Costos Fijos</label>
+                        <input type="number" id="otherFixed" placeholder="Ej: 2000" class="w-full">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sección de Costos Variables -->
+            <div>
+                <h2 class="text-2xl font-bold title mb-6">2. Costos Variables por Unidad 📦</h2>
+                <div class="space-y-6">
+                    <div class="input-group">
+                        <label for="productCost">Costo del Producto (Proveedor)</label>
+                        <input type="number" id="productCost" placeholder="Ej: 2000" class="w-full">
+                    </div>
+                    <div class="input-group">
+                        <label for="shipping">Costo de Envío</label>
+                        <input type="number" id="shipping" placeholder="Ej: 2500" class="w-full">
+                    </div>
+                    <div class="input-group">
+                        <label for="paymentCommissionRate">Tasa de Comisión Pasarela de Pago (%)</label>
+                        <input type="number" id="paymentCommissionRate" placeholder="Ej: 4" class="w-full">
+                    </div>
+                    <div class="input-group">
+                        <label for="paymentCommissionFixed">Comisión Fija Pasarela de Pago</label>
+                        <input type="number" id="paymentCommissionFixed" placeholder="Ej: 50" class="w-full">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-12">
+            <h2 class="text-2xl font-bold title mb-6">3. Proyección de Ventas y Retenciones 📊</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-6 mb-8">
+                <div class="input-group">
+                    <label for="salesEstimate">Cantidad de Ventas Mensuales Estimadas</label>
+                    <input type="number" id="salesEstimate" placeholder="Ej: 100" class="w-full">
+                </div>
+                <div class="input-group">
+                    <label for="price">Precio de Venta Sugerido (por unidad)</label>
+                    <input type="number" id="price" placeholder="Ej: 6000" class="w-full">
+                </div>
+                <div class="input-group">
+                    <label for="desiredProfitMargin">Margen de Ganancia Deseado (%)</label>
+                    <input type="number" id="desiredProfitMargin" placeholder="Ej: 30" class="w-full">
+                </div>
+                <div class="input-group">
+                    <label for="province">Provincia para Retenciones</label>
+                    <select id="province" class="w-full">
+                        <option value="none">Seleccionar...</option>
+                        <option value="buenos_aires">Buenos Aires (no inscripto)</option>
+                        <option value="caba">CABA (no inscripto)</option>
+                        <option value="cordoba">Córdoba (no inscripto)</option>
+                        <option value="santa_fe">Santa Fe (no inscripto)</option>
+                    </select>
+                </div>
+            </div>
+            <button onclick="calculateCosts()" class="button w-full">Calcular Ganancia</button>
+        </div>
+
+        <!-- Sección de Resultados mejorada -->
+        <div id="results" class="results-section mt-12 hidden">
+            <h3 class="text-xl mb-4">Análisis de Rentabilidad</h3>
+            <p><span>Costo Fijo por Unidad:</span> <span>$<span id="fixedCostPerUnit">0</span></span></p>
+            <p><span>Costo Variable por Unidad:</span> <span>$<span id="totalVariableCosts">0</span></span></p>
+            <p><span>Comisión de Pago por Venta:</span> <span>$<span id="paymentCommission">0</span></span></p>
+            <p><span>Costo por Retenciones (IIBB):</span> <span>$<span id="retentionCost">0</span></span></p>
+            <hr class="my-6 border-gray-400">
+            <p class="text-xl font-bold"><span>Costo Total por Unidad:</span> <span class="total-cost">$<span id="totalCostPerUnit">0</span></span></p>
+            <p class="text-xl font-bold"><span>Ganancia Neta por Unidad:</span> <span class="profit">$<span id="netProfitPerUnit">0</span></span></p>
+            <p class="text-xl font-bold"><span>Margen de Ganancia:</span> <span class="profit"><span id="profitMargin">0</span>%</span></p>
+            <hr class="my-6 border-gray-400">
+            <p class="text-xl font-bold"><span>Precio Sugerido para <span id="desiredProfitDisplay">0</span>% de Ganancia:</span> <span class="suggested-price font-extrabold">$<span id="suggestedPrice">0</span></span></p>
+        </div>
+    </div>
+
+    <script>
+        function calculateCosts() {
+            // Objeto con las tasas de retención de IIBB por provincia para no inscriptos
+            const retentionRates = {
+                'none': 0,
+                'buenos_aires': 3.5, 
+                'caba': 2,           
+                'cordoba': 4,        
+                'santa_fe': 3,       
+            };
+
+            const platformCost = parseFloat(document.getElementById('platformCost').value) || 0;
+            const marketing = parseFloat(document.getElementById('marketing').value) || 0;
+            const services = parseFloat(document.getElementById('services').value) || 0;
+            const otherFixed = parseFloat(document.getElementById('otherFixed').value) || 0;
+
+            const productCost = parseFloat(document.getElementById('productCost').value) || 0;
+            const shipping = parseFloat(document.getElementById('shipping').value) || 0;
+            const paymentCommissionRate = parseFloat(document.getElementById('paymentCommissionRate').value) || 0;
+            const paymentCommissionFixed = parseFloat(document.getElementById('paymentCommissionFixed').value) || 0;
+
+            const salesEstimate = parseFloat(document.getElementById('salesEstimate').value) || 0;
+            const price = parseFloat(document.getElementById('price').value) || 0;
+            const desiredProfitMargin = parseFloat(document.getElementById('desiredProfitMargin').value) || 0;
+
+            const selectedProvince = document.getElementById('province').value;
+            const retentionRate = retentionRates[selectedProvince] || 0;
+
+            // Validación de los inputs
+            if (salesEstimate <= 0 || price <= 0) {
+                document.getElementById('results').innerHTML = `<p class="text-red-600 font-semibold text-center">Por favor, ingresa una cantidad de ventas y un precio de venta válidos.</p>`;
+                document.getElementById('results').classList.remove('hidden');
+                return;
+            }
+
+            // Cálculo de costos fijos por unidad
+            const totalFixedCosts = platformCost + marketing + services + otherFixed;
+            const fixedCostPerUnit = totalFixedCosts / salesEstimate;
+
+            // Costo total variable por unidad
+            const totalVariableCosts = productCost + shipping;
+
+            // Comisión de pago y retenciones de IIBB para el precio ingresado
+            const paymentCommission = (price * (paymentCommissionRate / 100)) + paymentCommissionFixed;
+            const retentionCost = price * (retentionRate / 100);
+
+            // Costo total y ganancia neta para el precio ingresado
+            const totalCostPerUnit = totalVariableCosts + fixedCostPerUnit + paymentCommission + retentionCost;
+            const netProfitPerUnit = price - totalCostPerUnit;
+            const profitMargin = (netProfitPerUnit / price) * 100;
+
+            // Cálculo del precio sugerido para el margen de ganancia deseado
+            const desiredProfitRate = desiredProfitMargin / 100;
+            const paymentCommissionRateAsDecimal = paymentCommissionRate / 100;
+            const retentionRateAsDecimal = retentionRate / 100;
+
+            let suggestedPrice;
+            if (desiredProfitRate + retentionRateAsDecimal + paymentCommissionRateAsDecimal >= 1) {
+                suggestedPrice = NaN;
+            } else {
+                suggestedPrice = (totalVariableCosts + fixedCostPerUnit + paymentCommissionFixed) / (1 - desiredProfitRate - retentionRateAsDecimal - paymentCommissionRateAsDecimal);
+            }
+
+            // Actualización de los resultados en la interfaz
+            document.getElementById('fixedCostPerUnit').textContent = fixedCostPerUnit.toFixed(2);
+            document.getElementById('totalVariableCosts').textContent = totalVariableCosts.toFixed(2);
+            document.getElementById('paymentCommission').textContent = paymentCommission.toFixed(2);
+            document.getElementById('retentionCost').textContent = retentionCost.toFixed(2);
+            document.getElementById('totalCostPerUnit').textContent = totalCostPerUnit.toFixed(2);
+            document.getElementById('netProfitPerUnit').textContent = netProfitPerUnit.toFixed(2);
+            document.getElementById('profitMargin').textContent = profitMargin.toFixed(2);
+            document.getElementById('desiredProfitDisplay').textContent = desiredProfitMargin;
+            document.getElementById('suggestedPrice').textContent = isNaN(suggestedPrice) ? 'N/A' : suggestedPrice.toFixed(2);
+
+            document.getElementById('results').classList.remove('hidden');
+        }
+    </script>
+</body>
+</html>
